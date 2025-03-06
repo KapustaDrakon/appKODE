@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+import GetRequest from "./services/users.service";
+
+import Header from "./components/Header/Header";
+import Error from "./components/Error/Error";
+import List from "./components/List/List";
+
+const App = () => {
+  const getRequest = new GetRequest({});
+  const [errorType, setErrorType] = useState<string>("null");
+  const [download, setDownload] = useState<boolean>(false);
+  const [filter, setFilter] = useState<string>("all");
+  const [users, setUsers] = useState<[]>([]);
+
+  const getUsers = async () => {
+    setDownload(true);
+    await getRequest
+      .getUsersList()
+      .then((res) => {
+        // throw new Error();
+        setDownload(false);
+        setUsers(res.data.items);
+      })
+      .catch((error) => {
+        console.log(error);
+        setDownload(false);
+        return setErrorType("connection");
+      });
+  };
+
+  useEffect(() => {
+    getUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onFilterChange = (name: string) => {
+    return setFilter(name);
+  };
+
+  console.log(users);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      <Header
+        errorType={errorType}
+        download={download}
+        filter={filter}
+        onFilterChange={onFilterChange}
+      />
 
-export default App
+      {errorType !== "null" ? (
+        <Error
+          errorType={errorType}
+          setErrorType={setErrorType}
+          getUsers={getUsers}
+        />
+      ) : null}
+
+      <List />
+    </>
+  );
+};
+
+export default App;
