@@ -50,3 +50,8 @@ button {
   line-height: 20px;
   cursor: pointer;
 }
+
+ul {
+  list-style: none;
+  padding-inline-start: 0;
+}

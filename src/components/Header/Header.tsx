@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Filter from "../Filter/Filter";
 
@@ -10,6 +10,7 @@ interface IProps {
   download: boolean;
   filter: string;
   onFilterChange: (name: string) => void;
+  searchUser: (value: string) => void;
 }
 
 const Header: React.FC<IProps> = ({
@@ -17,6 +18,7 @@ const Header: React.FC<IProps> = ({
   download,
   filter,
   onFilterChange,
+  searchUser,
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -32,14 +34,24 @@ const Header: React.FC<IProps> = ({
     };
   };
 
-  const onChangeInputValue = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
+  useEffect(() => {
+    searchUser(inputValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputValue]);
+
+  const onChangeInputValue = (event: { target: { value: string } }) => {
+    if (
+      event.target.value !== "" &&
+      event.target.value.split(" ").length - 1 === event.target.value.length
+    )
+      return;
+
     return setInputValue(event.target.value);
   };
 
-  const onSubmit = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
+  const showPopup = () => {
+    const popup = document.getElementById("sort-popup")!;
+    popup.style.display = "flex";
   };
 
   return (
@@ -63,10 +75,11 @@ const Header: React.FC<IProps> = ({
                   placeholder="Введи имя, тег, почту..."
                   autoFocus
                   onChange={debounce(onChangeInputValue.bind(this))}
+                  defaultValue={inputValue}
                 />
               </div>
 
-              <button type="button">
+              <button type="button" onClick={showPopup}>
                 <img alt="sort" src={sort} />
               </button>
             </HeaderSearchContainer>
@@ -88,6 +101,7 @@ export default Header;
 const HeaderStyled = styled.header`
   display: flex;
   flex-direction: column;
+  border-bottom: 0.3px solid #c3c3c6;
 
   & .connection {
     background: #f44336;

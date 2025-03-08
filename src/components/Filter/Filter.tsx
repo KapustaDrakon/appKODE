@@ -9,9 +9,9 @@ interface IProps {
 const Filter: React.FC<IProps> = ({ filter, onFilterChange }) => {
   const buttons = [
     { name: "all", label: "Все" },
-    { name: "designers", label: "Designers" },
-    { name: "analysts", label: "Analysts" },
-    { name: "managers", label: "Managers" },
+    { name: "design", label: "Designers" },
+    { name: "analytics", label: "Analysts" },
+    { name: "management", label: "Managers" },
     { name: "ios", label: "iOS" },
     { name: "android", label: "Android" },
   ];
