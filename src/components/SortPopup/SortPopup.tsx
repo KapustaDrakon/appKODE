@@ -18,13 +18,13 @@ const SortPopup: React.FC<IProps> = ({ setSortType }) => {
       <SortContainer id="sort-popup">
         <SortBackground onClick={closePopUp} />
         <Popup>
-          <span>Сортировка</span>
+          <h3>Сортировка</h3>
           <PopupButtonClose type="button" onClick={closePopUp}>
             <img alt="cancel" src={cancel} />
           </PopupButtonClose>
           <PopupForm>
             <div>
-              <input
+              <PopupRadio
                 type="radio"
                 id="sort-alphabet"
                 name="sort"
@@ -33,7 +33,7 @@ const SortPopup: React.FC<IProps> = ({ setSortType }) => {
               <label htmlFor="sort-alphabet">По алфавиту</label>
             </div>
             <div>
-              <input
+              <PopupRadio
                 type="radio"
                 id="sort-birthday"
                 name="sort"
@@ -82,7 +82,7 @@ const Popup = styled.div`
 
   position: relative;
 
-  & span {
+  & h3 {
     margin-bottom: 16px;
     font-family: "Inter SemiBold";
     font-size: 20px;
@@ -118,6 +118,7 @@ const PopupForm = styled.form`
 
   & div {
     height: 60px;
+
     display: flex;
     align-items: center;
 
@@ -125,5 +126,67 @@ const PopupForm = styled.form`
       font-size: 16px;
       line-height: 20px;
     }
+  }
+`;
+
+const PopupRadio = styled.input`
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  margin-right: 12px;
+
+  &:checked,
+  &:not(:checked) {
+    visibility: hidden;
+  }
+
+  &:checked + label,
+  &:not(:checked) + label {
+    position: relative;
+    cursor: pointer;
+  }
+
+  &:checked + label:before,
+  &:not(:checked) + label:before {
+    content: "";
+    position: absolute;
+    left: -36px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6534ff;
+    border-radius: 100%;
+    background: #ffffff;
+    box-sizing: border-box;
+    margin-left: 2px;
+  }
+
+  &:checked + label:after,
+  &:not(:checked) + label:after {
+    content: "";
+    position: absolute;
+    left: -36px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 6px solid #6534ff;
+    border-radius: 100%;
+    background: #ffffff;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    margin-left: 2px;
+  }
+
+  &:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+
+  &:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
   }
 `;
