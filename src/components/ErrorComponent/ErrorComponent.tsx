@@ -10,7 +10,11 @@ interface IProps {
   getUsers: () => void;
 }
 
-const Error: React.FC<IProps> = ({ errorType, setErrorType, getUsers }) => {
+const ErrorComponent: React.FC<IProps> = ({
+  errorType,
+  setErrorType,
+  getUsers,
+}) => {
   return (
     <>
       {errorType === "getResults" ? (
@@ -44,7 +48,7 @@ const Error: React.FC<IProps> = ({ errorType, setErrorType, getUsers }) => {
   );
 };
 
-export default Error;
+export default ErrorComponent;
 
 const ErrorContent = styled.div`
   min-height: calc(100vh - 154px);

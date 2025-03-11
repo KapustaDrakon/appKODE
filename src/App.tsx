@@ -6,7 +6,7 @@ import GetRequest from "./services/users.service";
 import { IUser } from "./interfaces/user.interfaces";
 
 import Header from "./components/Header/Header";
-import Error from "./components/Error/Error";
+import ErrorComponent from "./components/ErrorComponent/ErrorComponent";
 import List from "./components/List/List";
 import SortPopup from "./components/SortPopup/SortPopup";
 import UserDetails from "./components/UserDetails/UserDetails";
@@ -15,15 +15,14 @@ import Frame from "./components/Frame/Frame";
 
 const App = () => {
   const getRequest = new GetRequest({});
-  const [errorType, setErrorType] = useState<string>("null");
+  const [errorType, setErrorType] = useState<string>("null"); // null network getResults noresults
   const [download, setDownload] = useState<boolean>(false);
   const [frame, setFrame] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("all");
   const [users, setUsers] = useState<IUser[]>([]);
   const [searchUsers, setSearchUsers] = useState<IUser[]>([]);
-  const [sortType, setSortType] = useState<string>("none");
+  const [sortType, setSortType] = useState<string>("none"); // none birthday alphabet
   const [inputValue, setInputValue] = useState<string>("");
-  // const [theme, setTheme] = useState<string>("light");
 
   const getUsers = async () => {
     setErrorType("null");
@@ -69,21 +68,13 @@ const App = () => {
     }
   };
 
-  const onFilterChange = (name: string) => {
-    return setFilter(name);
-  };
-
   const sortUsers = (items: IUser[]) => {
-    // setSortType(type);
     if (sortType === "alphabet") {
-      // result = searchUsers.length !== 0 ? searchUsers : users;
       const result = items.sort((a: IUser, b: IUser) => {
         if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) return -1;
         if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) return 1;
         return 0;
       });
-      console.log("sort result = ", result);
-      //setSearchUsers(result);
       return result;
     }
 
@@ -119,17 +110,18 @@ const App = () => {
       );
 
       const sortResult = result.slice(birthdaysNextYear.length);
-      sortResult.push({
-        id: "nextYear",
-        avatarUrl: "",
-        birthday: "",
-        department: "",
-        firstName: "",
-        lastName: "",
-        phone: "",
-        position: "",
-        userTag: "",
-      });
+      if (birthdaysNextYear.length !== 0)
+        sortResult.push({
+          id: "nextYear",
+          avatarUrl: "",
+          birthday: "",
+          department: "",
+          firstName: "",
+          lastName: "",
+          phone: "",
+          position: "",
+          userTag: "",
+        });
       sortResult.push(...birthdaysNextYear);
       return sortResult;
     }
@@ -156,11 +148,7 @@ const App = () => {
   );
 
   const searchUser = (value: string) => {
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    // setErrorType("null");
     if (!value) {
-      console.log("value = 0");
-      // setFilter("all");
       setSearchUsers([]);
       setUsers(users);
       return;
@@ -180,19 +168,6 @@ const App = () => {
     return setSearchUsers(result);
   };
 
-  // console.log(
-  //   "users = ",
-  //   users,
-  //   "visibleUsers = ",
-  //   visibleUsers,
-  //   "seachUsers = ",
-  //   searchUsers,
-  //   sortType,
-  //   filter
-  // );
-
-  console.log(errorType);
-
   return (
     <Router>
       <Routes>
@@ -206,18 +181,16 @@ const App = () => {
                 setErrorType={setErrorType}
                 download={download}
                 filter={filter}
-                onFilterChange={onFilterChange}
+                setFilter={setFilter}
                 searchUser={searchUser}
                 sortType={sortType}
                 inputValue={inputValue}
                 setInputValue={setInputValue}
-                // theme={theme}
-                // setTheme={setTheme}
               />
 
               <Network setDownload={setDownload} setErrorType={setErrorType} />
               {errorType !== "null" && errorType !== "network" ? (
-                <Error
+                <ErrorComponent
                   errorType={errorType}
                   setErrorType={setErrorType}
                   getUsers={getUsers}

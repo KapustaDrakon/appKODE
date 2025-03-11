@@ -11,13 +11,11 @@ interface IProps {
   setErrorType: (type: string) => void;
   download: boolean;
   filter: string;
-  onFilterChange: (name: string) => void;
+  setFilter: (name: string) => void;
   searchUser: (value: string) => void;
   sortType: string;
   inputValue: string;
   setInputValue: (value: string) => void;
-  // theme: string;
-  // setTheme: (value: string) => void;
 }
 
 const Header: React.FC<IProps> = ({
@@ -25,13 +23,11 @@ const Header: React.FC<IProps> = ({
   setErrorType,
   download,
   filter,
-  onFilterChange,
+  setFilter,
   searchUser,
   sortType,
   inputValue,
   setInputValue,
-  // theme,
-  // setTheme,
 }) => {
   const debounce = <F extends (...args: Parameters<F>) => ReturnType<F>>(
     fn: F
@@ -46,7 +42,6 @@ const Header: React.FC<IProps> = ({
   };
 
   useEffect(() => {
-    // if (inputValue !== "")
     searchUser(inputValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
@@ -76,15 +71,6 @@ const Header: React.FC<IProps> = ({
             >
               Поиск
             </HeaderTitle>
-
-            {/* <ButtonTheme
-              type="button"
-              onClick={() =>
-                theme === "light" ? setTheme("dark") : setTheme("light")
-              }
-            >
-              {theme}
-            </ButtonTheme> */}
           </div>
 
           {download ? (
@@ -115,7 +101,7 @@ const Header: React.FC<IProps> = ({
           )}
         </div>
 
-        <Filter filter={filter} onFilterChange={onFilterChange} />
+        <Filter filter={filter} setFilter={setFilter} />
       </HeaderStyled>
     </>
   );
@@ -158,12 +144,6 @@ const HeaderStyled = styled.header`
     color: #ffffff;
   }
 `;
-
-// const ButtonTheme = styled.button`
-//   margin-right: 24px;
-//   width: 50px;
-//   height: 25px;
-// `;
 
 const HeaderSearchError = styled.div`
   margin: 8px 24px 12px;

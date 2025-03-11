@@ -3,10 +3,10 @@ import styled from "styled-components";
 
 interface IProps {
   filter: string;
-  onFilterChange: (name: string) => void;
+  setFilter: (name: string) => void;
 }
 
-const Filter: React.FC<IProps> = ({ filter, onFilterChange }) => {
+const Filter: React.FC<IProps> = ({ filter, setFilter }) => {
   const buttons = [
     { name: "all", label: "Все" },
     { name: "design", label: "Designers" },
@@ -21,7 +21,7 @@ const Filter: React.FC<IProps> = ({ filter, onFilterChange }) => {
     const buttonClass = isActive ? "active" : "";
     return (
       <li key={name} className={buttonClass}>
-        <button type="button" onClick={() => onFilterChange(name)}>
+        <button type="button" onClick={() => setFilter(name)}>
           {label}
         </button>
       </li>
@@ -58,7 +58,6 @@ const FilterNav = styled.nav`
     }
 
     & li {
-      /* padding: 8px 12px; */
       height: 36px;
 
       & button {
