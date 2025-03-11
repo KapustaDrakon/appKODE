@@ -1,41 +1,51 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
+import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router";
 
 import GetRequest from "./services/users.service";
 
-import { IUser } from "./components/interfaces/user.interfaces";
+import { IUser } from "./interfaces/user.interfaces";
 
 import Header from "./components/Header/Header";
 import Error from "./components/Error/Error";
 import List from "./components/List/List";
 import SortPopup from "./components/SortPopup/SortPopup";
+import UserDetails from "./components/UserDetails/UserDetails";
+import Network from "./components/Network/Network";
+import Frame from "./components/Frame/Frame";
 
 const App = () => {
   const getRequest = new GetRequest({});
   const [errorType, setErrorType] = useState<string>("null");
   const [download, setDownload] = useState<boolean>(false);
+  const [frame, setFrame] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("all");
   const [users, setUsers] = useState<IUser[]>([]);
   const [searchUsers, setSearchUsers] = useState<IUser[]>([]);
   const [sortType, setSortType] = useState<string>("none");
+  const [inputValue, setInputValue] = useState<string>("");
+  // const [theme, setTheme] = useState<string>("light");
 
   const getUsers = async () => {
     setErrorType("null");
     setDownload(true);
+    setFrame(true);
     await getRequest
       .getUsersList()
       .then((res) => {
         // throw new Error(); // Тест ошибки
         setDownload(false);
+        setFrame(false);
         setUsers(res.data.items);
       })
       .catch((error) => {
         console.log(error);
         setDownload(false);
-        return setErrorType("connection");
+        setFrame(false);
+        setErrorType("getResults");
       });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -65,7 +75,6 @@ const App = () => {
 
   const sortUsers = (items: IUser[]) => {
     // setSortType(type);
-    console.log(sortType);
     if (sortType === "alphabet") {
       // result = searchUsers.length !== 0 ? searchUsers : users;
       const result = items.sort((a: IUser, b: IUser) => {
@@ -122,17 +131,6 @@ const App = () => {
         userTag: "",
       });
       sortResult.push(...birthdaysNextYear);
-
-      // const getUsersDaysBeforeBirthday = () =>
-      //   result.map((user: IUser) => {
-      //     console.log(`${new Date().getFullYear()}${user.birthday.slice(4)}`);
-      //     return getDaysBeforeBirthday(
-      //       `${new Date().getFullYear()}${user.birthday.slice(4)}`
-      //     );
-      //   });
-      // console.log(getUsersDaysBeforeBirthday());
-
-      console.log("sort result = ", sortResult);
       return sortResult;
     }
 
@@ -157,12 +155,15 @@ const App = () => {
     filter
   );
 
-  const searchUser = (value: string = "") => {
-    setErrorType("null");
+  const searchUser = (value: string) => {
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    // setErrorType("null");
     if (!value) {
-      setFilter("all");
+      console.log("value = 0");
+      // setFilter("all");
       setSearchUsers([]);
       setUsers(users);
+      return;
     }
 
     const result = users.filter(
@@ -179,29 +180,68 @@ const App = () => {
     return setSearchUsers(result);
   };
 
-  console.log("users = ", users, "visibleUsers = ", visibleUsers, sortType);
+  // console.log(
+  //   "users = ",
+  //   users,
+  //   "visibleUsers = ",
+  //   visibleUsers,
+  //   "seachUsers = ",
+  //   searchUsers,
+  //   sortType,
+  //   filter
+  // );
+
+  console.log(errorType);
 
   return (
-    <>
-      <Header
-        errorType={errorType}
-        download={download}
-        filter={filter}
-        onFilterChange={onFilterChange}
-        searchUser={searchUser}
-      />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/users" replace />} />
+        <Route
+          path="/users"
+          element={
+            <>
+              <Header
+                errorType={errorType}
+                setErrorType={setErrorType}
+                download={download}
+                filter={filter}
+                onFilterChange={onFilterChange}
+                searchUser={searchUser}
+                sortType={sortType}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+                // theme={theme}
+                // setTheme={setTheme}
+              />
 
-      {errorType !== "null" ? (
-        <Error
-          errorType={errorType}
-          setErrorType={setErrorType}
-          getUsers={getUsers}
-        />
-      ) : null}
+              <Network setDownload={setDownload} setErrorType={setErrorType} />
+              {errorType !== "null" && errorType !== "network" ? (
+                <Error
+                  errorType={errorType}
+                  setErrorType={setErrorType}
+                  getUsers={getUsers}
+                />
+              ) : frame ? (
+                <Frame />
+              ) : (
+                <List users={visibleUsers} sortType={sortType} />
+              )}
 
-      <List users={visibleUsers} sortType={sortType} />
-      <SortPopup setSortType={setSortType} />
-    </>
+              <SortPopup setSortType={setSortType} sortType={sortType} />
+            </>
+          }
+        ></Route>
+        {users.map((user) => (
+          <Route
+            path={`/users/${user.id}`}
+            key={user.id}
+            element={<UserDetails user={user} />}
+          />
+        ))}
+        <Route path="*" element={<div>Page not found</div>} />
+      </Routes>
+    </Router>
   );
 };
 

@@ -1,27 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Filter from "../Filter/Filter";
 
 import search from "../../assets/images/search.svg";
 import sort from "../../assets/images/sort.svg";
+import sortActive from "../../assets/images/sort-active.svg";
 
 interface IProps {
   errorType: string;
+  setErrorType: (type: string) => void;
   download: boolean;
   filter: string;
   onFilterChange: (name: string) => void;
   searchUser: (value: string) => void;
+  sortType: string;
+  inputValue: string;
+  setInputValue: (value: string) => void;
+  // theme: string;
+  // setTheme: (value: string) => void;
 }
 
 const Header: React.FC<IProps> = ({
   errorType,
+  setErrorType,
   download,
   filter,
   onFilterChange,
   searchUser,
+  sortType,
+  inputValue,
+  setInputValue,
+  // theme,
+  // setTheme,
 }) => {
-  const [inputValue, setInputValue] = useState<string>("");
-
   const debounce = <F extends (...args: Parameters<F>) => ReturnType<F>>(
     fn: F
   ) => {
@@ -35,6 +46,7 @@ const Header: React.FC<IProps> = ({
   };
 
   useEffect(() => {
+    // if (inputValue !== "")
     searchUser(inputValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
@@ -45,7 +57,7 @@ const Header: React.FC<IProps> = ({
       event.target.value.split(" ").length - 1 === event.target.value.length
     )
       return;
-
+    setErrorType("null");
     return setInputValue(event.target.value);
   };
 
@@ -58,13 +70,26 @@ const Header: React.FC<IProps> = ({
     <>
       <HeaderStyled>
         <div className={`${errorType} ${download ? "download" : ""}`}>
-          <HeaderTitle className={`${errorType} ${download ? "download" : ""}`}>
-            Поиск
-          </HeaderTitle>
+          <div>
+            <HeaderTitle
+              className={`${errorType} ${download ? "download" : ""}`}
+            >
+              Поиск
+            </HeaderTitle>
+
+            {/* <ButtonTheme
+              type="button"
+              onClick={() =>
+                theme === "light" ? setTheme("dark") : setTheme("light")
+              }
+            >
+              {theme}
+            </ButtonTheme> */}
+          </div>
 
           {download ? (
             <HeaderSearchDownload>Секундочку, гружусь...</HeaderSearchDownload>
-          ) : errorType !== "connection" ? (
+          ) : errorType === "null" || errorType === "noresults" ? (
             <HeaderSearchContainer>
               <div>
                 <img alt="search" id="search-image" src={search} />
@@ -80,7 +105,7 @@ const Header: React.FC<IProps> = ({
               </div>
 
               <button type="button" onClick={showPopup}>
-                <img alt="sort" src={sort} />
+                <img alt="sort" src={sortType === "none" ? sort : sortActive} />
               </button>
             </HeaderSearchContainer>
           ) : (
@@ -103,7 +128,17 @@ const HeaderStyled = styled.header`
   flex-direction: column;
   border-bottom: 0.3px solid #c3c3c6;
 
-  & .connection {
+  & div div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  & .getResults {
+    background: #f44336;
+  }
+
+  & .network {
     background: #f44336;
   }
 
@@ -111,7 +146,11 @@ const HeaderStyled = styled.header`
     background: #6534ff;
   }
 
-  & div .connection {
+  & div .getResults {
+    color: #ffffff;
+  }
+
+  & div .network {
     color: #ffffff;
   }
 
@@ -119,6 +158,12 @@ const HeaderStyled = styled.header`
     color: #ffffff;
   }
 `;
+
+// const ButtonTheme = styled.button`
+//   margin-right: 24px;
+//   width: 50px;
+//   height: 25px;
+// `;
 
 const HeaderSearchError = styled.div`
   margin: 8px 24px 12px;

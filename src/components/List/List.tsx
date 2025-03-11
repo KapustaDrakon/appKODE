@@ -1,6 +1,6 @@
 import React from "react";
 import ListItem from "../ListItem/ListItem";
-import { IUser } from "../interfaces/user.interfaces";
+import { IUser } from "../../interfaces/user.interfaces";
 import styled from "styled-components";
 
 interface IProps {
@@ -23,4 +23,5 @@ const ListUl = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  z-index: 10;
 `;

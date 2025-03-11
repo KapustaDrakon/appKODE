@@ -13,7 +13,7 @@ interface IProps {
 const Error: React.FC<IProps> = ({ errorType, setErrorType, getUsers }) => {
   return (
     <>
-      {errorType === "connection" ? (
+      {errorType === "getResults" ? (
         <ErrorContent>
           <img alt="flying saucer" src={flying_saucer} />
           <div>

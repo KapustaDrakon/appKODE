@@ -5,9 +5,10 @@ import cancel from "../../assets/images/cancel.svg";
 
 interface IProps {
   setSortType: (type: string) => void;
+  sortType: string;
 }
 
-const SortPopup: React.FC<IProps> = ({ setSortType }) => {
+const SortPopup: React.FC<IProps> = ({ setSortType, sortType }) => {
   const closePopUp = () => {
     const popup = document.getElementById("sort-popup")!;
     popup.style.display = "none";
@@ -28,6 +29,7 @@ const SortPopup: React.FC<IProps> = ({ setSortType }) => {
                 type="radio"
                 id="sort-alphabet"
                 name="sort"
+                defaultChecked={sortType === "alphabet" ? true : false}
                 onClick={() => setSortType("alphabet")}
               />
               <label htmlFor="sort-alphabet">По алфавиту</label>
@@ -37,6 +39,7 @@ const SortPopup: React.FC<IProps> = ({ setSortType }) => {
                 type="radio"
                 id="sort-birthday"
                 name="sort"
+                defaultChecked={sortType === "birthday" ? true : false}
                 onClick={() => setSortType("birthday")}
               />
               <label htmlFor="sort-birthday">По дню рождения</label>
@@ -73,9 +76,10 @@ const Popup = styled.div`
   width: 373px;
   background: #ffffff;
   border-radius: 20px;
-  z-index: 10;
+  z-index: 20;
 
   padding: 24px 16px 8px;
+  margin: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;

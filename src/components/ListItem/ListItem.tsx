@@ -1,8 +1,9 @@
 import React from "react";
 
-import { IUser } from "../interfaces/user.interfaces";
+import { IUser } from "../../interfaces/user.interfaces";
 import styled from "styled-components";
 import ListItemYear from "./ListItemYear";
+import { Link } from "react-router";
 
 interface IProps {
   user: IUser;
@@ -13,11 +14,6 @@ const ListItem: React.FC<IProps> = ({ user, sortType }) => {
   const dateFormat = (birthday: string) => {
     const month = new Date(birthday).getMonth() + 1;
     const day = new Date(birthday).getDate();
-    console.log(
-      birthday,
-      new Date(birthday).getDate(),
-      new Date(birthday).getMonth() + 1
-    );
 
     switch (month) {
       case 1:
@@ -55,11 +51,17 @@ const ListItem: React.FC<IProps> = ({ user, sortType }) => {
       <ListLi>
         <ListUser>
           <div>
-            <ListUserAvatar alt="user-avatar" src={user.avatarUrl} />
+            <Link to={`/users/${user.id}`}>
+              <ListUserAvatar alt="user-avatar" src={user.avatarUrl} />
+            </Link>
+
             <div>
-              <ListUserName>
-                {user.firstName} {user.lastName} <span>{user.userTag}</span>
-              </ListUserName>
+              <Link to={`/users/${user.id}`}>
+                <ListUserName>
+                  {user.firstName} {user.lastName} <span>{user.userTag}</span>
+                </ListUserName>
+              </Link>
+
               <ListUserDepartment>{user.department}</ListUserDepartment>
             </div>
           </div>
@@ -74,12 +76,15 @@ const ListItem: React.FC<IProps> = ({ user, sortType }) => {
 
 export default ListItem;
 
-const ListLi = styled.li``;
+const ListLi = styled.li`
+  height: 84px;
+`;
 
 const ListUser = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: inherit;
 
   & div {
     display: flex;
@@ -88,6 +93,7 @@ const ListUser = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: center;
+      min-height: 84px;
     }
   }
 `;
@@ -105,6 +111,7 @@ const ListUserAvatar = styled.img`
   border-radius: 50%;
   margin: 6px 16px 6px 0;
   cursor: pointer;
+  display: block;
 `;
 
 const ListUserName = styled.span`
