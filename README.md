@@ -15,4 +15,6 @@
 9. Создание компонента UserDetails для отображение профиля пользователя;
 10. Настройка Routes (react-router);
 11. Чистка кода (консоль логи, комментарии);
-12. Создание репозитория github.
+12. Создание репозитория github, gh-pages.
+
+Просмотр страницы на gh-pages - https://kapustadrakon.github.io/appKODE/#/appKODE/users
