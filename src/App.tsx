@@ -171,9 +171,13 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/users" replace />} />
+        <Route path="/" element={<Navigate to="/appKODE/users" replace />} />
         <Route
-          path="/users"
+          path="/appKODE/"
+          element={<Navigate to="/appKODE/users" replace />}
+        />
+        <Route
+          path="/appKODE/users"
           element={
             <>
               <Header
@@ -207,7 +211,7 @@ const App = () => {
         ></Route>
         {users.map((user) => (
           <Route
-            path={`/users/${user.id}`}
+            path={`/appKODE/users/${user.id}`}
             key={user.id}
             element={<UserDetails user={user} />}
           />

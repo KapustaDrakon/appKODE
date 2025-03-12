@@ -51,12 +51,12 @@ const ListItem: React.FC<IProps> = ({ user, sortType }) => {
       <ListLi>
         <ListUser>
           <div>
-            <Link to={`/users/${user.id}`}>
+            <Link to={`/appKODE/users/${user.id}`}>
               <ListUserAvatar alt="user-avatar" src={user.avatarUrl} />
             </Link>
 
             <div>
-              <Link to={`/users/${user.id}`}>
+              <Link to={`/appKODE/users/${user.id}`}>
                 <ListUserName>
                   {user.firstName} {user.lastName} <span>{user.userTag}</span>
                 </ListUserName>

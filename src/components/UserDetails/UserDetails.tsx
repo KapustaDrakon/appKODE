@@ -18,7 +18,7 @@ const UserDetails: React.FC<IProps> = ({ user }) => {
       <UserDetailsContainer>
         <UserDetailsMain>
           <ButtonBackContainer>
-            <Link to="/users">
+            <Link to="/appKODE/users">
               <img src={back} alt="back" />
             </Link>
           </ButtonBackContainer>
