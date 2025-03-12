@@ -193,7 +193,7 @@ Please change the parent <Route path="${q}"> to <Route path="${q==="/"?"*":`${q}
     font-size: 15px;
     line-height: 20px;
   }
-`,p5="/appKODE/assets/flying-saucer-BlRB3qDj.svg",y5="/appKODE/assets/magnifying-glass-DodthyMV.svg",g5=({errorType:a,setErrorType:i,getUsers:s})=>A.jsxs(A.Fragment,{children:[a==="getResults"?A.jsxs(rd,{children:[A.jsx("img",{alt:"flying saucer",src:p5}),A.jsxs("div",{children:[A.jsx(cd,{children:"Какой-то сверхразум все сломал"}),A.jsx(sd,{children:"Постараемся быстро починить"}),A.jsx(v5,{onClick:()=>{s(),i("null")},children:"Попробовать снова"})]})]}):null,a==="noresults"?A.jsxs(rd,{children:[A.jsx("img",{alt:"magnifying glass",src:y5}),A.jsxs("div",{children:[A.jsx(cd,{children:"Мы никого не нашли"}),A.jsx(sd,{children:"Попробуй скорректировать запрос"})]})]}):null]}),rd=st.div`
+`,p5="/appKODE/assets/flying-saucer-APFWWqfb.svg",y5="/appKODE/assets/magnifying-glass-BRlHRad7.svg",g5=({errorType:a,setErrorType:i,getUsers:s})=>A.jsxs(A.Fragment,{children:[a==="getResults"?A.jsxs(rd,{children:[A.jsx("img",{alt:"flying saucer",src:p5}),A.jsxs("div",{children:[A.jsx(cd,{children:"Какой-то сверхразум все сломал"}),A.jsx(sd,{children:"Постараемся быстро починить"}),A.jsx(v5,{onClick:()=>{s(),i("null")},children:"Попробовать снова"})]})]}):null,a==="noresults"?A.jsxs(rd,{children:[A.jsx("img",{alt:"magnifying glass",src:y5}),A.jsxs("div",{children:[A.jsx(cd,{children:"Мы никого не нашли"}),A.jsx(sd,{children:"Попробуй скорректировать запрос"})]})]}):null]}),rd=st.div`
   min-height: calc(100vh - 154px);
   display: flex;
   flex-direction: column;
