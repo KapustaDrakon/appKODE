@@ -156,9 +156,9 @@ const App = () => {
 
     const result = users.filter(
       (user: IUser) =>
-        user.firstName.toLowerCase().includes(value) ||
-        user.lastName.toLowerCase().includes(value) ||
-        user.userTag.toLowerCase().includes(value)
+        user.firstName.toLowerCase().includes(value.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(value.toLowerCase()) ||
+        user.userTag.toLowerCase().includes(value.toLowerCase())
     );
 
     if (result.length === 0) {
