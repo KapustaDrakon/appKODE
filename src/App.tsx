@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from "react";
-import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router";
+import { Navigate, Route, HashRouter as Router, Routes } from "react-router";
 
 import GetRequest from "./services/users.service";
 
