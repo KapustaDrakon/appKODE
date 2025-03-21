@@ -8,9 +8,10 @@ import { Link } from "react-router";
 interface IProps {
   user: IUser;
   sortType: string;
+  darkMode: boolean;
 }
 
-const ListItem: React.FC<IProps> = ({ user, sortType }) => {
+const ListItem: React.FC<IProps> = ({ user, sortType, darkMode }) => {
   const dateFormat = (birthday: string) => {
     const month = new Date(birthday).getMonth() + 1;
     const day = new Date(birthday).getDate();
@@ -57,7 +58,7 @@ const ListItem: React.FC<IProps> = ({ user, sortType }) => {
 
             <div>
               <Link to={`/appKODE/users/${user.id}`}>
-                <ListUserName>
+                <ListUserName className={darkMode ? "darkMode" : ""}>
                   {user.firstName} {user.lastName} <span>{user.userTag}</span>
                 </ListUserName>
               </Link>
@@ -94,6 +95,10 @@ const ListUser = styled.div`
       flex-direction: column;
       justify-content: center;
       min-height: 84px;
+
+      & .darkMode {
+        color: #ffffff;
+      }
     }
   }
 `;

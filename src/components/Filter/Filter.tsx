@@ -4,9 +4,10 @@ import styled from "styled-components";
 interface IProps {
   filter: string;
   setFilter: (name: string) => void;
+  darkMode: boolean;
 }
 
-const Filter: React.FC<IProps> = ({ filter, setFilter }) => {
+const Filter: React.FC<IProps> = ({ filter, setFilter, darkMode }) => {
   const buttons = [
     { name: "all", label: "Все" },
     { name: "design", label: "Designers" },
@@ -18,7 +19,7 @@ const Filter: React.FC<IProps> = ({ filter, setFilter }) => {
 
   const filterButtons = buttons.map(({ name, label }) => {
     const isActive = filter === name;
-    const buttonClass = isActive ? "active" : "";
+    const buttonClass = isActive ? `active${darkMode ? " darkMode" : ""}` : "";
     return (
       <li key={name} className={buttonClass}>
         <button type="button" onClick={() => setFilter(name)}>
@@ -70,6 +71,11 @@ const FilterNav = styled.nav`
 
     & .active {
       color: #050510;
+      border-bottom: 2px solid #6534ff;
+    }
+
+    & .darkMode {
+      color: #ffffff;
       border-bottom: 2px solid #6534ff;
     }
   }

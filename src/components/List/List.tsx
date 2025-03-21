@@ -6,11 +6,19 @@ import styled from "styled-components";
 interface IProps {
   users: IUser[];
   sortType: string;
+  darkMode: boolean;
 }
 
-const List: React.FC<IProps> = ({ users, sortType }) => {
+const List: React.FC<IProps> = ({ users, sortType, darkMode }) => {
   const elements = users.map((user: IUser) => {
-    return <ListItem key={user.id} user={user} sortType={sortType} />;
+    return (
+      <ListItem
+        key={user.id}
+        user={user}
+        sortType={sortType}
+        darkMode={darkMode}
+      />
+    );
   });
 
   return <ListUl>{elements}</ListUl>;

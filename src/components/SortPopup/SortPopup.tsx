@@ -6,9 +6,10 @@ import cancel from "../../assets/images/cancel.svg";
 interface IProps {
   setSortType: (type: string) => void;
   sortType: string;
+  darkMode: boolean;
 }
 
-const SortPopup: React.FC<IProps> = ({ setSortType, sortType }) => {
+const SortPopup: React.FC<IProps> = ({ setSortType, sortType, darkMode }) => {
   const closePopUp = () => {
     const popup = document.getElementById("sort-popup")!;
     popup.style.display = "none";
@@ -18,7 +19,7 @@ const SortPopup: React.FC<IProps> = ({ setSortType, sortType }) => {
     <>
       <SortContainer id="sort-popup">
         <SortBackground onClick={closePopUp} />
-        <Popup>
+        <Popup className={darkMode ? "darkMode" : ""}>
           <h3>Сортировка</h3>
           <PopupButtonClose type="button" onClick={closePopUp}>
             <img alt="cancel" src={cancel} />
@@ -62,6 +63,10 @@ const SortContainer = styled.div`
   display: none;
   align-items: center;
   justify-content: center;
+
+  & .darkMode {
+    background: #1f1f1f;
+  }
 `;
 
 const SortBackground = styled.div`
@@ -160,7 +165,7 @@ const PopupRadio = styled.input`
     height: 20px;
     border: 2px solid #6534ff;
     border-radius: 100%;
-    background: #ffffff;
+    background: inherit;
     box-sizing: border-box;
     margin-left: 2px;
   }
@@ -175,7 +180,7 @@ const PopupRadio = styled.input`
     height: 20px;
     border: 6px solid #6534ff;
     border-radius: 100%;
-    background: #ffffff;
+    background: inherit;
     -webkit-transition: all 0.2s ease;
     transition: all 0.2s ease;
     box-sizing: border-box;

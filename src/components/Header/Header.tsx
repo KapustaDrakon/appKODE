@@ -5,6 +5,8 @@ import Filter from "../Filter/Filter";
 import search from "../../assets/images/search.svg";
 import sort from "../../assets/images/sort.svg";
 import sortActive from "../../assets/images/sort-active.svg";
+import moon from "../../assets/images/moon.svg";
+import sun from "../../assets/images/sun.svg";
 
 interface IProps {
   errorType: string;
@@ -16,6 +18,8 @@ interface IProps {
   sortType: string;
   inputValue: string;
   setInputValue: (value: string) => void;
+  darkMode: boolean;
+  setDarkMode: (mode: boolean) => void;
 }
 
 const Header: React.FC<IProps> = ({
@@ -28,6 +32,8 @@ const Header: React.FC<IProps> = ({
   sortType,
   inputValue,
   setInputValue,
+  darkMode,
+  setDarkMode,
 }) => {
   const debounce = <F extends (...args: Parameters<F>) => ReturnType<F>>(
     fn: F
@@ -61,6 +67,16 @@ const Header: React.FC<IProps> = ({
     popup.style.display = "flex";
   };
 
+  const onDarkMode = () => {
+    if (darkMode) {
+      localStorage.removeItem("darkMode");
+    } else {
+      localStorage.setItem("darkMode", "true");
+    }
+
+    setDarkMode(!darkMode);
+  };
+
   return (
     <>
       <HeaderStyled>
@@ -71,6 +87,14 @@ const Header: React.FC<IProps> = ({
             >
               Поиск
             </HeaderTitle>
+
+            <HeaderButtonMode type="button" onClick={onDarkMode}>
+              {darkMode ? (
+                <img src={sun} alt="sun" />
+              ) : (
+                <img src={moon} alt="moon" />
+              )}
+            </HeaderButtonMode>
           </div>
 
           {download ? (
@@ -101,7 +125,7 @@ const Header: React.FC<IProps> = ({
           )}
         </div>
 
-        <Filter filter={filter} setFilter={setFilter} />
+        <Filter filter={filter} setFilter={setFilter} darkMode={darkMode} />
       </HeaderStyled>
     </>
   );
@@ -142,6 +166,23 @@ const HeaderStyled = styled.header`
 
   & div .download {
     color: #ffffff;
+  }
+`;
+
+const HeaderButtonMode = styled.button`
+  width: 40px;
+  height: 20px;
+  margin: 0 16px;
+  padding: 0;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+
+  & img {
+    width: 15px;
+    height: 15px;
   }
 `;
 

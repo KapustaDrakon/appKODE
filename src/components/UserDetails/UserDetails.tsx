@@ -7,19 +7,21 @@ import UserDetailsPhone from "./UserDetailsPhone";
 import { IUser } from "../../interfaces/user.interfaces";
 
 import back from "../../assets/images/back.svg";
+import backWhite from "../../assets/images/back-white.svg";
 
 interface IProps {
   user: IUser;
+  darkMode: boolean;
 }
 
-const UserDetails: React.FC<IProps> = ({ user }) => {
+const UserDetails: React.FC<IProps> = ({ user, darkMode }) => {
   return (
     <>
       <UserDetailsContainer>
-        <UserDetailsMain>
+        <UserDetailsMain className={darkMode ? "darkMode" : ""}>
           <ButtonBackContainer>
             <Link to="/appKODE/users">
-              <img src={back} alt="back" />
+              <img src={darkMode ? backWhite : back} alt="back" />
             </Link>
           </ButtonBackContainer>
           <UserDetailsWrap>
@@ -38,8 +40,8 @@ const UserDetails: React.FC<IProps> = ({ user }) => {
         </UserDetailsMain>
 
         <UserAdditionalInf>
-          <UserDetailsAge user={user} />
-          <UserDetailsPhone user={user} />
+          <UserDetailsAge user={user} darkMode={darkMode} />
+          <UserDetailsPhone user={user} darkMode={darkMode} />
         </UserAdditionalInf>
       </UserDetailsContainer>
     </>
@@ -49,8 +51,13 @@ const UserDetails: React.FC<IProps> = ({ user }) => {
 export default UserDetails;
 
 const UserDetailsContainer = styled.div`
-  background: #ffffff;
+  background: inherit;
+  color: inherit;
   min-height: inherit;
+
+  & .darkMode {
+    background: #272727;
+  }
 `;
 
 const UserDetailsMain = styled.div`
@@ -97,7 +104,7 @@ const ButtonBackContainer = styled.div`
   }
 `;
 
-const UserName = styled.h1`
+const UserName = styled.h3`
   font-family: "Inter Bold";
   font-size: 24px;
   line-height: 28px;

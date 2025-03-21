@@ -4,12 +4,14 @@ import styled from "styled-components";
 import { IUser } from "../../interfaces/user.interfaces";
 
 import star from "../../assets/images/star.svg";
+import starWhite from "../../assets/images/star-white.svg";
 
 interface IProps {
   user: IUser;
+  darkMode: boolean;
 }
 
-const UserDetailsAge: React.FC<IProps> = ({ user }) => {
+const UserDetailsAge: React.FC<IProps> = ({ user, darkMode }) => {
   const dateFormat = (birthday: string) => {
     const month = new Date(birthday).getMonth() + 1;
     const day = new Date(birthday).getDate();
@@ -68,7 +70,7 @@ const UserDetailsAge: React.FC<IProps> = ({ user }) => {
     <>
       <UserBirthdayInf>
         <div>
-          <img src={star} alt="star" />
+          <img src={darkMode ? starWhite : star} alt="star" />
           <span>{dateFormat(user.birthday)}</span>
         </div>
 
@@ -93,12 +95,14 @@ const UserBirthdayInf = styled.div`
 
   & img {
     margin-right: 12px;
+    width: 24px;
+    height: 24px;
   }
 
   & div span {
     font-size: 16px;
     line-height: 20px;
-    color: #050510;
+    color: inherit;
   }
   & span {
     font-size: 16px;

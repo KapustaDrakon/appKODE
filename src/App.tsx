@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Navigate, Route, HashRouter as Router, Routes } from "react-router";
 
 import GetRequest from "./services/users.service";
@@ -24,6 +24,10 @@ const App = () => {
   const [sortType, setSortType] = useState<string>("none"); // none birthday alphabet
   const [inputValue, setInputValue] = useState<string>("");
 
+  const [darkMode, setDarkMode] = useState<boolean>(
+    JSON.parse(JSON.stringify(localStorage.getItem("darkMode"))) ? true : false
+  );
+
   const getUsers = async () => {
     setErrorType("null");
     setDownload(true);
@@ -46,8 +50,21 @@ const App = () => {
 
   useLayoutEffect(() => {
     getUsers();
+    // if (darkMode) {
+    //   document.body.style.background = "#1f1f1f";
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.style.background = "#1f1f1f";
+      document.body.style.color = "#ffffff";
+    } else {
+      document.body.style.background = "#ffffff";
+      document.body.style.color = "#050510";
+    }
+  }, [darkMode]);
 
   const filterChange = (users: IUser[], filter: string) => {
     switch (filter) {
@@ -190,6 +207,8 @@ const App = () => {
                 sortType={sortType}
                 inputValue={inputValue}
                 setInputValue={setInputValue}
+                darkMode={darkMode}
+                setDarkMode={setDarkMode}
               />
 
               <Network setDownload={setDownload} setErrorType={setErrorType} />
@@ -202,10 +221,18 @@ const App = () => {
               ) : frame ? (
                 <Frame />
               ) : (
-                <List users={visibleUsers} sortType={sortType} />
+                <List
+                  users={visibleUsers}
+                  sortType={sortType}
+                  darkMode={darkMode}
+                />
               )}
 
-              <SortPopup setSortType={setSortType} sortType={sortType} />
+              <SortPopup
+                setSortType={setSortType}
+                sortType={sortType}
+                darkMode={darkMode}
+              />
             </>
           }
         ></Route>
@@ -213,7 +240,7 @@ const App = () => {
           <Route
             path={`/appKODE/users/${user.id}`}
             key={user.id}
-            element={<UserDetails user={user} />}
+            element={<UserDetails user={user} darkMode={darkMode} />}
           />
         ))}
         <Route path="*" element={<div>Page not found</div>} />
