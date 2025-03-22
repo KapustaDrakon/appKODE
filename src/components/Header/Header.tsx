@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+
 import Filter from "../Filter/Filter";
+import { useData } from "../../providers/DataProviders";
 
 import search from "../../assets/images/search.svg";
 import sort from "../../assets/images/sort.svg";
@@ -9,32 +11,21 @@ import moon from "../../assets/images/moon.svg";
 import sun from "../../assets/images/sun.svg";
 
 interface IProps {
-  errorType: string;
-  setErrorType: (type: string) => void;
-  download: boolean;
-  filter: string;
-  setFilter: (name: string) => void;
   searchUser: (value: string) => void;
-  sortType: string;
-  inputValue: string;
-  setInputValue: (value: string) => void;
-  darkMode: boolean;
-  setDarkMode: (mode: boolean) => void;
 }
 
-const Header: React.FC<IProps> = ({
-  errorType,
-  setErrorType,
-  download,
-  filter,
-  setFilter,
-  searchUser,
-  sortType,
-  inputValue,
-  setInputValue,
-  darkMode,
-  setDarkMode,
-}) => {
+const Header: React.FC<IProps> = ({ searchUser }) => {
+  const {
+    inputValue,
+    setInputValue,
+    darkMode,
+    setDarkMode,
+    errorType,
+    setErrorType,
+    download,
+    sortType,
+  } = useData();
+
   const debounce = <F extends (...args: Parameters<F>) => ReturnType<F>>(
     fn: F
   ) => {
@@ -125,7 +116,7 @@ const Header: React.FC<IProps> = ({
           )}
         </div>
 
-        <Filter filter={filter} setFilter={setFilter} darkMode={darkMode} />
+        <Filter />
       </HeaderStyled>
     </>
   );

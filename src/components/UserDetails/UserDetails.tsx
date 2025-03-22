@@ -5,16 +5,17 @@ import { Link } from "react-router";
 import UserDetailsAge from "./UserDetailAge";
 import UserDetailsPhone from "./UserDetailsPhone";
 import { IUser } from "../../interfaces/user.interfaces";
+import { useData } from "../../providers/DataProviders";
 
 import back from "../../assets/images/back.svg";
 import backWhite from "../../assets/images/back-white.svg";
 
 interface IProps {
   user: IUser;
-  darkMode: boolean;
 }
 
-const UserDetails: React.FC<IProps> = ({ user, darkMode }) => {
+const UserDetails: React.FC<IProps> = ({ user }) => {
+  const { darkMode } = useData();
   return (
     <>
       <UserDetailsContainer>
@@ -40,8 +41,8 @@ const UserDetails: React.FC<IProps> = ({ user, darkMode }) => {
         </UserDetailsMain>
 
         <UserAdditionalInf>
-          <UserDetailsAge user={user} darkMode={darkMode} />
-          <UserDetailsPhone user={user} darkMode={darkMode} />
+          <UserDetailsAge user={user} />
+          <UserDetailsPhone user={user} />
         </UserAdditionalInf>
       </UserDetailsContainer>
     </>

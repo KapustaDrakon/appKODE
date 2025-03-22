@@ -1,15 +1,11 @@
-import React from "react";
 import styled from "styled-components";
+
+import { useData } from "../../providers/DataProviders";
 
 import cancel from "../../assets/images/cancel.svg";
 
-interface IProps {
-  setSortType: (type: string) => void;
-  sortType: string;
-  darkMode: boolean;
-}
-
-const SortPopup: React.FC<IProps> = ({ setSortType, sortType, darkMode }) => {
+const SortPopup = () => {
+  const { setSortType, sortType, darkMode } = useData();
   const closePopUp = () => {
     const popup = document.getElementById("sort-popup")!;
     popup.style.display = "none";

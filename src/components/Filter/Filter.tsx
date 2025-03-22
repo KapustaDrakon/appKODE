@@ -1,13 +1,8 @@
-import React from "react";
 import styled from "styled-components";
+import { useData } from "../../providers/DataProviders";
 
-interface IProps {
-  filter: string;
-  setFilter: (name: string) => void;
-  darkMode: boolean;
-}
-
-const Filter: React.FC<IProps> = ({ filter, setFilter, darkMode }) => {
+const Filter = () => {
+  const { filter, setFilter, darkMode } = useData();
   const buttons = [
     { name: "all", label: "Все" },
     { name: "design", label: "Designers" },

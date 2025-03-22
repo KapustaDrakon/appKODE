@@ -1,11 +1,8 @@
-import React from "react";
+import { useData } from "../../providers/DataProviders";
 
-interface IProps {
-  setDownload: (value: boolean) => void;
-  setErrorType: (type: string) => void;
-}
+const Network = () => {
+  const { setDownload, setErrorType } = useData();
 
-const Network: React.FC<IProps> = ({ setDownload, setErrorType }) => {
   window.onoffline = () => {
     setErrorType("network");
   };

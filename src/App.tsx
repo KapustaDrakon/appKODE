@@ -1,7 +1,8 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { Navigate, Route, HashRouter as Router, Routes } from "react-router";
 
 import GetRequest from "./services/users.service";
+import { useData } from "./providers/DataProviders";
 
 import { IUser } from "./interfaces/user.interfaces";
 
@@ -15,18 +16,21 @@ import Frame from "./components/Frame/Frame";
 
 const App = () => {
   const getRequest = new GetRequest({});
-  const [errorType, setErrorType] = useState<string>("null"); // null network getResults noresults
-  const [download, setDownload] = useState<boolean>(false);
-  const [frame, setFrame] = useState<boolean>(false);
-  const [filter, setFilter] = useState<string>("all");
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [searchUsers, setSearchUsers] = useState<IUser[]>([]);
-  const [sortType, setSortType] = useState<string>("none"); // none birthday alphabet
-  const [inputValue, setInputValue] = useState<string>("");
 
-  const [darkMode, setDarkMode] = useState<boolean>(
-    JSON.parse(JSON.stringify(localStorage.getItem("darkMode"))) ? true : false
-  );
+  const {
+    frame,
+    setFrame,
+    errorType,
+    setErrorType,
+    setDownload,
+    filter,
+    users,
+    setUsers,
+    searchUsers,
+    setSearchUsers,
+    sortType,
+    darkMode,
+  } = useData();
 
   const getUsers = async () => {
     setErrorType("null");
@@ -50,9 +54,6 @@ const App = () => {
 
   useLayoutEffect(() => {
     getUsers();
-    // if (darkMode) {
-    //   document.body.style.background = "#1f1f1f";
-    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -197,42 +198,19 @@ const App = () => {
           path="/appKODE/users"
           element={
             <>
-              <Header
-                errorType={errorType}
-                setErrorType={setErrorType}
-                download={download}
-                filter={filter}
-                setFilter={setFilter}
-                searchUser={searchUser}
-                sortType={sortType}
-                inputValue={inputValue}
-                setInputValue={setInputValue}
-                darkMode={darkMode}
-                setDarkMode={setDarkMode}
-              />
+              <Header searchUser={searchUser} />
 
-              <Network setDownload={setDownload} setErrorType={setErrorType} />
+              <Network />
+
               {errorType !== "null" && errorType !== "network" ? (
-                <ErrorComponent
-                  errorType={errorType}
-                  setErrorType={setErrorType}
-                  getUsers={getUsers}
-                />
+                <ErrorComponent getUsers={getUsers} />
               ) : frame ? (
                 <Frame />
               ) : (
-                <List
-                  users={visibleUsers}
-                  sortType={sortType}
-                  darkMode={darkMode}
-                />
+                <List users={visibleUsers} />
               )}
 
-              <SortPopup
-                setSortType={setSortType}
-                sortType={sortType}
-                darkMode={darkMode}
-              />
+              <SortPopup />
             </>
           }
         ></Route>
@@ -240,7 +218,7 @@ const App = () => {
           <Route
             path={`/appKODE/users/${user.id}`}
             key={user.id}
-            element={<UserDetails user={user} darkMode={darkMode} />}
+            element={<UserDetails user={user} />}
           />
         ))}
         <Route path="*" element={<div>Page not found</div>} />

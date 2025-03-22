@@ -1,24 +1,16 @@
 import React from "react";
+import styled from "styled-components";
+
 import ListItem from "../ListItem/ListItem";
 import { IUser } from "../../interfaces/user.interfaces";
-import styled from "styled-components";
 
 interface IProps {
   users: IUser[];
-  sortType: string;
-  darkMode: boolean;
 }
 
-const List: React.FC<IProps> = ({ users, sortType, darkMode }) => {
+const List: React.FC<IProps> = ({ users }) => {
   const elements = users.map((user: IUser) => {
-    return (
-      <ListItem
-        key={user.id}
-        user={user}
-        sortType={sortType}
-        darkMode={darkMode}
-      />
-    );
+    return <ListItem key={user.id} user={user} />;
   });
 
   return <ListUl>{elements}</ListUl>;

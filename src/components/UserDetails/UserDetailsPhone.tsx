@@ -1,16 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 
+import { IUser } from "../../interfaces/user.interfaces";
+import { useData } from "../../providers/DataProviders";
+
 import phone from "../../assets/images/phone.svg";
 import phoneWhite from "../../assets/images/phone-white.svg";
-import { IUser } from "../../interfaces/user.interfaces";
 
 interface IProps {
   user: IUser;
-  darkMode: boolean;
 }
 
-const UserDetailsPhone: React.FC<IProps> = ({ user, darkMode }) => {
+const UserDetailsPhone: React.FC<IProps> = ({ user }) => {
+  const { darkMode } = useData();
+
   const phoneFormat = (phone: string) =>
     phone.slice(0, 2) +
     " (" +

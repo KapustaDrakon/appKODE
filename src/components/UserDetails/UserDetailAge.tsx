@@ -2,16 +2,18 @@ import React from "react";
 import styled from "styled-components";
 
 import { IUser } from "../../interfaces/user.interfaces";
+import { useData } from "../../providers/DataProviders";
 
 import star from "../../assets/images/star.svg";
 import starWhite from "../../assets/images/star-white.svg";
 
 interface IProps {
   user: IUser;
-  darkMode: boolean;
 }
 
-const UserDetailsAge: React.FC<IProps> = ({ user, darkMode }) => {
+const UserDetailsAge: React.FC<IProps> = ({ user }) => {
+  const { darkMode } = useData();
+
   const dateFormat = (birthday: string) => {
     const month = new Date(birthday).getMonth() + 1;
     const day = new Date(birthday).getDate();

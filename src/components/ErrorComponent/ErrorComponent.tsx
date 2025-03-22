@@ -1,20 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
+import { useData } from "../../providers/DataProviders";
+
 import flying_saucer from "../../assets/images/flying-saucer.svg";
 import magnifying_glass from "../../assets/images/magnifying-glass.svg";
 
 interface IProps {
-  errorType: string;
-  setErrorType: (errorType: string) => void;
   getUsers: () => void;
 }
 
-const ErrorComponent: React.FC<IProps> = ({
-  errorType,
-  setErrorType,
-  getUsers,
-}) => {
+const ErrorComponent: React.FC<IProps> = ({ getUsers }) => {
+  const { errorType, setErrorType } = useData();
+
   return (
     <>
       {errorType === "getResults" ? (

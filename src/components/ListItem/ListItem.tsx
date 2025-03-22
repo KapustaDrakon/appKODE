@@ -1,17 +1,18 @@
 import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router";
 
 import { IUser } from "../../interfaces/user.interfaces";
-import styled from "styled-components";
 import ListItemYear from "./ListItemYear";
-import { Link } from "react-router";
+import { useData } from "../../providers/DataProviders";
 
 interface IProps {
   user: IUser;
-  sortType: string;
-  darkMode: boolean;
 }
 
-const ListItem: React.FC<IProps> = ({ user, sortType, darkMode }) => {
+const ListItem: React.FC<IProps> = ({ user }) => {
+  const { sortType, darkMode } = useData();
+
   const dateFormat = (birthday: string) => {
     const month = new Date(birthday).getMonth() + 1;
     const day = new Date(birthday).getDate();
